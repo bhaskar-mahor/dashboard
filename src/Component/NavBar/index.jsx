@@ -22,19 +22,40 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import FlagIcon from "@mui/icons-material/Flag";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import EmailIcon from "@mui/icons-material/Email";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
-import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
-import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import Avatar from "@mui/material/Avatar";
+import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import BusinessCenterOutlinedIcon from "@mui/icons-material/BusinessCenterOutlined";
 import { grey } from "@mui/material/colors";
 import { TextField } from "@mui/material";
 import { colors } from "../../utils/colors";
+import profilePic from "../../static/images/martha.jpg";
+import { TopBarContainer } from "./style";
 
 const drawerWidth = 240;
+
+const topMenuIcon = [
+  {
+    name: "email",
+    icon: <EmailOutlinedIcon />,
+  },
+  {
+    name: "setting",
+    icon: <SettingsOutlinedIcon />,
+  },
+  {
+    name: "notification",
+    icon: <NotificationsNoneOutlinedIcon />,
+  },
+];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -103,6 +124,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function NavBar() {
+  const baseURL = window.location.origin;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -151,16 +173,27 @@ export default function NavBar() {
             />
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-
-          <IconButton color="inherit">
-            <NotificationsIcon />
-          </IconButton>
-          <IconButton color="inherit">
-            <EmailIcon />
-          </IconButton>
-          <IconButton color="inherit">
-            <AccountCircleIcon />
-          </IconButton>
+          <TopBarContainer>
+            {topMenuIcon.map((item, index) => {
+              return (
+                <IconButton
+                  color="inherit"
+                  key={index}
+                  style={{
+                    color: colors.navigationIcon,
+                    background: colors.gray30,
+                  }}
+                >
+                  {item.icon}
+                </IconButton>
+              );
+            })}
+            <Avatar
+              alt="Travis Howard"
+              src={profilePic}
+              style={{ cursor: "pointer" }}
+            />
+          </TopBarContainer>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -187,7 +220,10 @@ export default function NavBar() {
             { text: "Dashboard", icon: <HomeIcon /> },
             { text: "Activity", icon: <InsertChartOutlinedIcon /> },
             { text: "Goals", icon: <AssignmentTurnedInOutlinedIcon /> },
-            { text: "Popular Dishes", icon: <AccountBalanceWalletOutlinedIcon /> },
+            {
+              text: "Popular Dishes",
+              icon: <AccountBalanceWalletOutlinedIcon />,
+            },
             { text: "Menus", icon: <BusinessCenterOutlinedIcon /> },
           ].map((item, index) => (
             <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
@@ -196,7 +232,10 @@ export default function NavBar() {
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                  borderLeft: item.text === "Dashboard" ? `3px solid ${colors.lightBlue}` : null,
+                  borderLeft:
+                    item.text === "Dashboard"
+                      ? `3px solid ${colors.lightBlue}`
+                      : null,
                 }}
               >
                 <ListItemIcon
@@ -204,7 +243,10 @@ export default function NavBar() {
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
-                    color: item.text === "Dashboard" ? colors.lightBlue : colors.navigationIcon,
+                    color:
+                      item.text === "Dashboard"
+                        ? colors.lightBlue
+                        : colors.navigationIcon,
                   }}
                 >
                   {item.icon}
